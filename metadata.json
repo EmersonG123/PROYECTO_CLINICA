@@ -1,0 +1,8 @@
+{
+  "name": "Clínica Ayacucho - Sistema de Gestión",
+  "description": "Plataforma integral de salud digital para la Clínica Ayacucho, incluyendo portal de pacientes, agendamiento de citas y gestión médica.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
