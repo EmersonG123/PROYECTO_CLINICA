@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
+import { GoogleGenAI } from "@google/genai";
 
 interface Message {
   role: 'bot' | 'user';
@@ -14,13 +15,17 @@ const Chatbot: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
     { 
       role: 'bot', 
-      text: '¡Hola! Soy Ayi, tu asistente médico inteligente de Clínica Ayacucho. ¿Cómo puedo ayudarte hoy?',
+      text: '¡Hola! Soy Ayi, tu asistente médico con IA de Clínica Ayacucho (Versión 2026). ¿En qué puedo ayudarte hoy?',
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Inicializar cliente de Google GenAI
+  // NOTA: Asegúrate de tener la variable de entorno API_KEY configurada
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
   useEffect(() => {
     const handleEmergencyEvent = () => {
@@ -45,36 +50,73 @@ const Chatbot: React.FC = () => {
     }
   }, [messages, isTyping]);
 
-  const handleSend = (text: string = inputValue) => {
-    const msg = text.trim();
-    if (!msg) return;
+  const handleSend = async (text: string = inputValue) => {
+    const msgText = text.trim();
+    if (!msgText) return;
     
-    setMessages(prev => [...prev, { role: 'user', text: msg, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }]);
+    // 1. Agregar mensaje del usuario a la UI
+    const newUserMsg: Message = { 
+        role: 'user', 
+        text: msgText, 
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
+    };
+    
+    setMessages(prev => [...prev, newUserMsg]);
     setInputValue('');
     setIsTyping(true);
-    
-    setTimeout(() => {
-      setIsTyping(false);
-      let responseText = 'Entendido. Estoy procesando su consulta para brindarle la mejor orientación médica.';
-      
-      if (isEmergency) {
-        responseText = 'El equipo de urgencias está en camino. Un paramédico está monitoreando esta conexión.';
-      } else if (msg.toLowerCase().includes('cita') || msg.toLowerCase().includes('agendar')) {
-        responseText = 'Para agendar una cita, puede usar el botón "AGENDAR CITA" en la página principal o ingresar a su panel de paciente.';
-      }
 
-      setMessages(prev => [...prev, { 
-        role: 'bot', 
-        text: responseText,
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      }]);
-    }, 1500);
+    try {
+        // 2. Preparar historial para Gemini
+        // Convertimos el estado de mensajes al formato que espera Gemini (user/model)
+        const historyForAi = messages.concat(newUserMsg).map(m => ({
+            role: m.role === 'user' ? 'user' : 'model',
+            parts: [{ text: m.text }]
+        }));
+
+        // 3. Llamar a la API de Gemini
+        const response = await ai.models.generateContent({
+            model: 'gemini-3-pro-preview',
+            contents: historyForAi,
+            config: {
+                systemInstruction: `Eres "Ayi", el asistente médico virtual avanzado de la Clínica Ayacucho. Año actual: 2026.
+                Tu tono es profesional, empático, seguro y eficiente.
+                
+                Tus funciones son:
+                1. Guiar a pacientes para agendar citas (pero no puedes agendarlas tú directamente, indícales ir a la sección "Agendar").
+                2. Explicar términos médicos de forma sencilla.
+                3. Proveer información sobre horarios (Lunes a Sábado 7am - 8pm) y ubicación (Ayacucho, Perú).
+                4. Si detectas una emergencia médica grave en el texto del usuario, recomienda ir a urgencias inmediatamente.
+                
+                Responde de manera concisa. No inventes nombres de doctores que no conozcas.`,
+                temperature: 0.7,
+            }
+        });
+
+        const aiResponseText = response.text || "Lo siento, tuve un problema procesando tu solicitud.";
+
+        // 4. Agregar respuesta de la IA a la UI
+        setMessages(prev => [...prev, { 
+            role: 'bot', 
+            text: aiResponseText,
+            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        }]);
+
+    } catch (error) {
+        console.error("Error calling Gemini:", error);
+        setMessages(prev => [...prev, { 
+            role: 'bot', 
+            text: "Lo siento, mi conexión neuronal está inestable en este momento. Por favor intenta de nuevo.",
+            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        }]);
+    } finally {
+        setIsTyping(false);
+    }
   };
 
   const quickActions = [
-    { label: 'Citas', icon: 'calendar_month' },
-    { label: 'Especialistas', icon: 'medical_services' },
-    { label: 'Ubicación', icon: 'location_on' }
+    { label: 'Agendar Cita', icon: 'calendar_month' },
+    { label: 'Especialidades', icon: 'medical_services' },
+    { label: 'Horarios', icon: 'schedule' }
   ];
 
   return (
@@ -85,7 +127,7 @@ const Chatbot: React.FC = () => {
           onClick={() => setIsOpen(!isOpen)} 
           className={`group relative flex items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-[#00E676] hover:bg-[#00C853] text-slate-900 rounded-2xl shadow-2xl transition-all duration-500 active:scale-90 ${isOpen ? 'opacity-0 scale-90 pointer-events-none' : 'opacity-100 scale-100'}`}
         >
-          <span className="material-symbols-outlined text-3xl font-black">clinical_notes</span>
+          <span className="material-symbols-outlined text-3xl font-black">smart_toy</span>
           {/* Badge de actividad */}
           <span className="absolute -top-1 -right-1 w-5 h-5 bg-green-500 border-[3px] border-white dark:border-slate-900 rounded-full animate-pulse"></span>
         </button>
@@ -100,13 +142,13 @@ const Chatbot: React.FC = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-md border border-white/30">
-                  <span className="material-symbols-outlined text-2xl font-black">{isEmergency ? 'emergency' : 'smart_toy'}</span>
+                  <span className="material-symbols-outlined text-2xl font-black">{isEmergency ? 'emergency' : 'neurology'}</span>
                 </div>
                 <div>
-                  <h4 className="font-black text-lg md:text-xl tracking-tighter uppercase italic leading-none">{isEmergency ? 'Emergencia' : 'Asistente Ayi'}</h4>
+                  <h4 className="font-black text-lg md:text-xl tracking-tighter uppercase italic leading-none">{isEmergency ? 'Emergencia' : 'Ayi AI'}</h4>
                   <div className="flex items-center gap-2 mt-1.5 opacity-80">
                      <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
-                     <p className="text-[9px] font-black uppercase tracking-widest">En Línea • IA 4.0</p>
+                     <p className="text-[9px] font-black uppercase tracking-widest">Gemini 3 Pro • 2026</p>
                   </div>
                 </div>
               </div>
@@ -167,18 +209,18 @@ const Chatbot: React.FC = () => {
             <div className="flex items-center gap-3 bg-slate-50 dark:bg-slate-800 rounded-2xl pl-5 pr-2 py-2 border border-slate-200 dark:border-slate-700 shadow-inner focus-within:bg-white dark:focus-within:bg-slate-800 focus-within:ring-2 focus-within:ring-blue-600/10 transition-all">
               <input 
                 type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                placeholder="Escribe tu consulta..."
+                placeholder="Pregunta a la IA..."
                 className="flex-1 bg-transparent border-none focus:ring-0 text-[13px] font-bold py-2 placeholder:text-slate-400 dark:text-white"
               />
               <button 
                 onClick={() => handleSend()} 
-                disabled={!inputValue.trim()} 
+                disabled={!inputValue.trim() || isTyping} 
                 className="w-10 h-10 rounded-xl flex items-center justify-center bg-blue-600 text-white shadow-lg active:scale-90 disabled:opacity-30 transition-all"
               >
                 <span className="material-symbols-outlined text-xl font-bold">send</span>
               </button>
             </div>
-            <p className="text-[8px] font-black text-slate-300 dark:text-slate-600 uppercase tracking-[0.5em] text-center mt-6 italic">Ayi Health AI • v.4.2</p>
+            <p className="text-[8px] font-black text-slate-300 dark:text-slate-600 uppercase tracking-[0.5em] text-center mt-6 italic">Powered by Google Gemini 3</p>
           </div>
         </div>
       )}

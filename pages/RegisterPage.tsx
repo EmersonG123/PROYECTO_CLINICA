@@ -137,7 +137,7 @@ const RegisterPage: React.FC = () => {
                         <div className="h-1 flex-1 bg-blue-800 rounded-full"></div>
                         <div className="h-1 flex-1 bg-slate-200 dark:bg-slate-800 rounded-full"></div>
                      </div>
-                     <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">Seguridad: Media</p>
+                     <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1.5">Seguridad: Media</p>
                   </div>
                </div>
 

@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 const WorkCenter: React.FC = () => {
   const navigate = useNavigate();
-  const [currentDate, setCurrentDate] = useState(new Date(2023, 9, 24)); // Octubre 24, 2023
+  // Fecha restaurada a la actual
+  const [currentDate, setCurrentDate] = useState(new Date());
 
   const initialQueue = [
     { id: '1', time: '09:30 AM', patient: 'Maria Gonzalez', dni: '12.345.678', type: 'Consulta', status: 'En Espera', sColor: 'text-orange-600 bg-orange-50 border-orange-100', active: false },
@@ -211,7 +212,7 @@ const WorkCenter: React.FC = () => {
                              {row.status === 'En Espera' ? (
                                <button 
                                  onClick={() => handleStartConsultation(row.id)}
-                                 className="bg-blue-800 text-white px-4 md:px-5 py-2.5 rounded-xl font-black text-[9px] md:text-[10px] uppercase tracking-widest flex items-center gap-2 active:scale-95 transition-all shadow-lg shadow-blue-900/10 whitespace-nowrap"
+                                 className="bg-blue-800 text-white px-4 md:px-5 py-2.5 rounded-xl font-black text-[9px] md:text-[10px] uppercase tracking-widest shadow-lg shadow-blue-900/10 flex items-center gap-2 active:scale-95 transition-all shadow-lg shadow-blue-900/10 whitespace-nowrap"
                                >
                                   <span className="material-symbols-outlined text-sm">play_arrow</span>
                                   Iniciar

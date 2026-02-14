@@ -110,7 +110,7 @@ const BookingFlow: React.FC = () => {
           {/* Col Centro: Calendario (Imagen 1) */}
           <div className="xl:col-span-6 bg-white dark:bg-slate-900 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 p-10 shadow-sm">
             <div className="flex items-center justify-between mb-12">
-              <h3 className="text-xl font-black text-slate-900 dark:text-white">Septiembre 2023</h3>
+              <h3 className="text-xl font-black text-slate-900 dark:text-white">Octubre 2024</h3>
               <div className="flex gap-2">
                 <button className="w-10 h-10 border border-slate-100 rounded-xl text-slate-400 flex items-center justify-center hover:bg-slate-50"><span className="material-symbols-outlined text-sm">chevron_left</span></button>
                 <button className="w-10 h-10 border border-slate-100 rounded-xl text-slate-400 flex items-center justify-center hover:bg-slate-50"><span className="material-symbols-outlined text-sm">chevron_right</span></button>
@@ -164,7 +164,7 @@ const BookingFlow: React.FC = () => {
                   <h3 className="text-lg font-black text-slate-900 dark:text-white">Horarios disponibles</h3>
                   <p className="text-[10px] font-bold text-slate-400 mt-2 uppercase tracking-widest flex items-center gap-2">
                     <span className="material-symbols-outlined text-sm">calendar_month</span>
-                    Jueves, 14 de Septiembre
+                    Jueves, 14 de Octubre
                   </p>
                 </div>
 
@@ -451,7 +451,7 @@ const BookingFlow: React.FC = () => {
             <div className="bg-slate-100 p-1.5 rounded-lg">
               <span className="material-symbols-outlined text-lg">local_hospital</span>
             </div>
-            <span>© 2023 Clínica Ayacucho. Todos los derechos reservados.</span>
+            <span>© 2024 Clínica Ayacucho. Todos los derechos reservados.</span>
          </div>
          <div className="flex gap-10">
             <a href="#" className="hover:text-blue-800 transition-colors">Términos y Condiciones</a>

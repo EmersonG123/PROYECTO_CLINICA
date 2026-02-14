@@ -92,7 +92,7 @@ const LandingPage: React.FC = () => {
             </div>
             <div className="flex flex-col">
               <span className="font-black text-slate-900 dark:text-white text-lg md:text-xl tracking-tighter uppercase italic leading-none">Clínica Ayacucho</span>
-              <span className="text-[8px] font-black text-blue-600 dark:text-blue-400 tracking-[0.3em] uppercase mt-1">Salud Digital Avanzada</span>
+              <span className="text-[8px] font-black text-blue-600 dark:text-blue-400 tracking-[0.3em] uppercase mt-1">Salud Digital</span>
             </div>
           </div>
           
@@ -149,7 +149,7 @@ const LandingPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Hero Section con EFECTO DINÁMICO (TIPO GIF MÉDICO) */}
+      {/* Hero Section */}
       <section id="inicio" className="relative pt-44 md:pt-64 pb-32 overflow-hidden px-6 md:px-8 bg-slate-50/20 dark:bg-transparent">
         {/* Luces de fondo dinámicas */}
         <div className="absolute top-1/4 left-10 w-48 h-48 bg-blue-400/20 rounded-full blur-[100px] animate-pulse"></div>
@@ -159,7 +159,7 @@ const LandingPage: React.FC = () => {
           <div className="space-y-12 animate-in fade-in slide-in-from-left duration-1000 z-10">
             <div className="inline-flex items-center gap-4 bg-white dark:bg-blue-600/10 px-5 py-2 rounded-full border border-blue-100 dark:border-blue-600/20 shadow-sm">
                <span className="w-2.5 h-2.5 bg-blue-600 rounded-full animate-ping"></span>
-               <span className="text-[11px] font-black text-blue-900 dark:text-blue-300 uppercase tracking-[0.2em]">TECNOLOGÍA MÉDICA DE VANGUARDIA</span>
+               <span className="text-[11px] font-black text-blue-900 dark:text-blue-300 uppercase tracking-[0.2em]">TECNOLOGÍA MÉDICA</span>
             </div>
             <h1 className="text-7xl md:text-[6rem] font-black text-slate-900 dark:text-white leading-[0.85] tracking-tighter uppercase">
               La Salud <br />
@@ -177,7 +177,7 @@ const LandingPage: React.FC = () => {
             </div>
           </div>
 
-          {/* COMPOSICIÓN DINÁMICA TIPO GIF (Ref. Visual Médico Tecnológico) */}
+          {/* COMPOSICIÓN DINÁMICA */}
           <div className="relative animate-in fade-in zoom-in duration-1000 delay-300">
             <div className="relative z-10 aspect-[4/3.2] rounded-[4rem] overflow-hidden shadow-[0_60px_100px_-20px_rgba(0,0,0,0.3)] border-[12px] border-white dark:border-slate-900 group">
               <img 
@@ -186,13 +186,11 @@ const LandingPage: React.FC = () => {
                 alt="Alta tecnología médica" 
               />
               
-              {/* Capa de Efecto GIF: Línea de Escaneo Láser */}
+              {/* Capa de Efecto GIF */}
               <div className="absolute top-0 left-0 w-full h-[2px] bg-blue-400/80 shadow-[0_0_15px_#60a5fa] animate-[scan_4s_linear_infinite] z-20"></div>
               
-              {/* Capa de Filtro Médico */}
               <div className="absolute inset-0 bg-gradient-to-t from-blue-900/40 to-transparent mix-blend-overlay"></div>
               
-              {/* Elementos UI Holográficos Flotantes */}
               <div className="absolute top-10 right-10 flex flex-col gap-3">
                  <div className="bg-blue-600/90 backdrop-blur-md p-3 rounded-xl animate-float">
                     <span className="material-symbols-outlined text-white text-xl font-black">biotech</span>
@@ -203,14 +201,14 @@ const LandingPage: React.FC = () => {
               </div>
             </div>
             
-            {/* Badge Flotante "CALIDAD MÉDICA" perfeccionado */}
+            {/* Badge Flotante */}
             <div className="absolute -bottom-12 -left-12 glass p-10 rounded-[3rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.2)] z-30 max-w-[300px] animate-float border border-white/50 flex flex-col gap-6">
                <div className="flex items-center gap-6">
                   <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/50 rounded-[1.5rem] flex items-center justify-center text-blue-600 dark:text-blue-300 shadow-inner">
                     <span className="material-symbols-outlined text-4xl font-black">verified</span>
                   </div>
                   <div>
-                    <p className="text-[12px] font-black text-slate-900 dark:text-white uppercase leading-none tracking-wider">CERTIFICACIÓN</p>
+                    <p className="text-[12px] font-black text-slate-900 dark:text-white uppercase leading-none tracking-wider">CALIDAD CERTIFICADA</p>
                     <p className="text-[11px] font-bold text-slate-400 mt-1.5 uppercase tracking-widest">Estándares SUSALUD</p>
                   </div>
                </div>
@@ -219,7 +217,6 @@ const LandingPage: React.FC = () => {
                </div>
             </div>
 
-            {/* Elemento Decorativo: ADN Animado */}
             <div className="absolute -top-16 -right-16 w-48 h-48 opacity-10 dark:opacity-20 pointer-events-none rotate-12">
                <span className="material-symbols-outlined text-[10rem] font-thin animate-pulse">helix</span>
             </div>
@@ -227,7 +224,7 @@ const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Sección: Nuestras Especialidades (Imagen Proporcionada) */}
+      {/* Sección: Nuestras Especialidades */}
       <section id="especialidades" className="py-40 px-6 md:px-8 bg-white dark:bg-slate-950">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-24 space-y-6">
@@ -311,7 +308,7 @@ const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Médicos Section con SUPERPOSICIÓN EXACTA */}
+      {/* Médicos Section */}
       <section id="staff" className="py-40 px-6 md:px-8 bg-white dark:bg-slate-950">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-10">
@@ -402,6 +399,7 @@ const LandingPage: React.FC = () => {
          </div>
       </footer>
 
+      {/* Mantenemos el Chatbot Integrado */}
       <Chatbot />
       
       {/* Estilos específicos para animaciones tipo GIF */}

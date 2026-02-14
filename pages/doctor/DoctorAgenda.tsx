@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 const DoctorAgenda: React.FC = () => {
   const navigate = useNavigate();
-  const [viewDate, setViewDate] = useState(new Date(2023, 9, 24)); // Octubre 24, 2023
+  // Se cambia la fecha inicial a la fecha actual del sistema
+  const [viewDate, setViewDate] = useState(new Date()); 
   const today = new Date();
 
   // Estado local de citas para hacerlas funcionales
