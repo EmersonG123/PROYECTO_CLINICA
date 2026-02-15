@@ -4,6 +4,7 @@ import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import EmailVerification from './pages/EmailVerification';
 import DashboardLayout from './components/dashboard/DashboardLayout';
 import ReceptionLayout from './components/reception/ReceptionLayout';
 import DoctorLayout from './components/doctor/DoctorLayout';
@@ -70,7 +71,7 @@ import NurseSettings from './pages/nurse/NurseSettings';
 
 // Helper para oscurecer colores (para estados hover)
 const adjustColor = (color: string, amount: number) => {
-    return '#' + color.replace(/^#/, '').replace(/../g, color => ('0'+Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(16)).substr(-2));
+  return '#' + color.replace(/^#/, '').replace(/../g, color => ('0' + Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(16)).substr(-2));
 }
 
 const App: React.FC = () => {
@@ -112,7 +113,7 @@ const App: React.FC = () => {
       try {
         const parsed = JSON.parse(savedConfig);
         if (parsed.theme) {
-            applyDynamicTheme(parsed.theme.primary, parsed.theme.secondary);
+          applyDynamicTheme(parsed.theme.primary, parsed.theme.secondary);
         }
       } catch (e) {
         console.error("Error cargando configuración de tema", e);
@@ -138,7 +139,8 @@ const App: React.FC = () => {
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
-      
+      <Route path="/verify-email" element={<EmailVerification />} />
+
       {/* Patient Dashboard Routes */}
       <Route path="/dashboard" element={<DashboardLayout />}>
         <Route index element={<DashboardHome />} />
