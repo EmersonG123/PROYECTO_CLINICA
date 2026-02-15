@@ -121,18 +121,8 @@ const App: React.FC = () => {
     }
   }, []);
 
-  // Redirección forzada a Landing Page en caso de Refresh
-  useEffect(() => {
-    const handleRefresh = () => {
-      if (location.pathname !== '/') {
-        navigate('/', { replace: true });
-      }
-    };
-
-    if (window.performance && (window.performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming)?.type === "reload") {
-      handleRefresh();
-    }
-  }, []);
+  // Redirección forzada removida para permitir flujo de autenticación y persistencia de rutas
+  // useEffect(() => { ... }, []);
 
   return (
     <Routes>

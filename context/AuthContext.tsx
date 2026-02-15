@@ -61,13 +61,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }, []);
 
     const signInWithGoogle = async () => {
-        // @ts-ignore
         const { error } = await insforge.auth.signInWithOAuth({
             provider: 'google',
-            // @ts-ignore
-            options: {
-                redirectTo: `${window.location.origin}/dashboard`
-            }
+            redirectTo: `${window.location.origin}/dashboard`
         });
         if (error) throw error;
     };
