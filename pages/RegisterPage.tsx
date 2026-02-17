@@ -55,6 +55,11 @@ const RegisterPage: React.FC = () => {
             throw new Error('La contraseña debe tener al menos 6 caracteres.');
          }
 
+         // Split full name into names and surnames for better data structure
+         const nameParts = fullName.trim().split(' ');
+         const names = nameParts[0] || fullName;
+         const surnames = nameParts.slice(1).join(' ') || '';
+
          // @ts-ignore - options.data typing might differ in SDK version
          const { data, error } = await insforge.auth.signUp({
             email,
@@ -64,6 +69,8 @@ const RegisterPage: React.FC = () => {
                // @ts-ignore
                data: {
                   full_name: fullName || 'Paciente Nuevo',
+                  names: names,
+                  surnames: surnames,
                   dni,
                   phone,
                   role: 'patient' // Default role for self-registration
@@ -177,17 +184,23 @@ const RegisterPage: React.FC = () => {
                      </div>
                   </div>
 
-                  {showWelcome && (
-                     <div className="bg-green-50 dark:bg-green-900/20 border border-green-100 dark:border-green-800 p-5 rounded-2xl flex items-center gap-4 animate-in fade-in slide-in-from-top-2 duration-500">
-                        <div className="w-10 h-10 bg-green-500 text-white rounded-full flex items-center justify-center shrink-0">
-                           <span className="material-symbols-outlined font-black">check</span>
-                        </div>
-                        <div>
-                           <p className="text-[10px] font-black text-green-700 dark:text-green-300 uppercase tracking-widest">DNI Identificado</p>
-                           <p className="text-sm font-black text-green-900 dark:text-white">{fullName}</p>
-                        </div>
-                     </div>
-                  )}
+                  {/* New Name Input Field (Auto-filled but editable) */}
+                  <div className="space-y-2.5">
+                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">NOMBRES Y APELLIDOS</label>
+                     <input
+                        required
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                        className="w-full bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 font-bold text-slate-900 dark:text-white outline-none focus:border-blue-800 transition-all"
+                        placeholder="Nombre Completo"
+                     />
+                     {showWelcome && (
+                        <p className="text-[10px] font-bold text-green-600 ml-1 flex items-center gap-1">
+                           <span className="material-symbols-outlined text-sm">check_circle</span>
+                           DNI Validado correctamente
+                        </p>
+                     )}
+                  </div>
 
                   <div className="space-y-2.5">
                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">CORREO ELECTRÓNICO</label>
